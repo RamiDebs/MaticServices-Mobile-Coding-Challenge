@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Trending  Github Repos</string>
+    <string name="repo_stars">[Repo Stars]</string>
+    <string name="repo_des">[Repo Des]</string>
+    <string name="repo_name">[Repo Name]</string>
+    <string name="repo_owner_name">[Repo Owner Name]</string>
 </resources>
