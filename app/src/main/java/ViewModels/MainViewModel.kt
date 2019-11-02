@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val reposRepository: ReposRepository = ReposRepository()
 
-    val allRepos: LiveData<List<SingleItem>>
-        get() = reposRepository.getMutableLiveData()
-
+    fun allRepos(page : Int): LiveData<List<SingleItem>> {
+        return reposRepository.getMutableLiveData(page)
+    }
 }

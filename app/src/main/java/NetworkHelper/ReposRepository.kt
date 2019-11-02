@@ -14,12 +14,12 @@ class ReposRepository {
     private var repoItems = ArrayList<SingleItem>()
     internal val mutableLiveData = MutableLiveData<List<SingleItem>>()
 
-    fun getMutableLiveData(): MutableLiveData<List<SingleItem>> {
+    fun getMutableLiveData(page : Int): MutableLiveData<List<SingleItem>> {
 
         val githubAPIServer =
             RetrofitClient.retrofitInstance?.create<GithubAPIServer>(GithubAPIServer::class.java)
 
-        githubAPIServer?.getRepos()?.enqueue(object : Callback<RepoItems> {
+        githubAPIServer?.getRepos(getDaysAgo(),page)?.enqueue(object : Callback<RepoItems> {
             override fun onResponse(call: Call<RepoItems>, response: Response<RepoItems>) {
                 Log.d(TAG, "call done. with Response " + response.body())
                 val allServerRepoItems = response.body()
@@ -43,6 +43,6 @@ class ReposRepository {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         //Github API server only accepts date in this format
-        return "$year-${if (month<=9) "0"+month else month}-${if (day<=9) "0"+day else day}"
+        return "created:>$year-${if (month<=9) "0"+month else month}-${if (day<=9) "0"+day else day}"
     }
 }

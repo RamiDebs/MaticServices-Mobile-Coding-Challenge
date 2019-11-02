@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             adapter = adapterrr
 
         }
-        mainViewModel!!.allRepos.observe(this, Observer { items ->
+        mainViewModel!!.allRepos(1).observe(this, Observer { items ->
             adapterrr.setItems(items = items as ArrayList<SingleItem>)
             mainRView.scheduleLayoutAnimation()
         })
