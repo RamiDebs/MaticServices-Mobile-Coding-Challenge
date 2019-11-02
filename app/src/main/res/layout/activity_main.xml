@@ -12,5 +12,6 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/single_item"
         android:layoutAnimation="@anim/layout_animation_from_right"
+        android:background="@drawable/gradient"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
