@@ -3,6 +3,7 @@ package cora.debs.trendingrepo
 import Adapters.RepoDataAdapter
 import Pojo.SingleItem
 import ViewModels.MainViewModel
+import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -13,19 +14,21 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private var mainViewModel: MainViewModel? = null
+    private val adapterrr = RepoDataAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //creating view holder and RView
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java!!)
-       val adapterrr = RepoDataAdapter()
-
         mainRView.apply {
-            layoutManager =  LinearLayoutManager(applicationContext)
+            layoutManager = LinearLayoutManager(applicationContext)
             adapter = adapterrr
 
         }
-        mainViewModel!!.allRepos.observe(this, Observer { items ->  adapterrr.setItems(items = items as ArrayList<SingleItem>)
+        mainViewModel!!.allRepos.observe(this, Observer { items ->
+            adapterrr.setItems(items = items as ArrayList<SingleItem>)
+            mainRView.scheduleLayoutAnimation()
         })
     }
 }
