@@ -43,7 +43,7 @@
         android:background="@color/placeholder_bg"
         android:minLines="1"
         android:paddingRight="5dp"
-        android:text="@string/repo_des"
+        android:text='"\n\n"'
         android:textAlignment="viewStart"
         android:textColor="@color/placeholder_bg"
         android:textSize="18sp"
