@@ -62,7 +62,7 @@ class RepoDataAdapter : RecyclerView.Adapter<RepoDataAdapter.RepoViewHolder>() {
                     .circleCrop()
             )
             .load(imageURL)
-            .placeholder(R.drawable.loading)
+            .placeholder(R.drawable.logo)
             .into(imageView)
     }
 }

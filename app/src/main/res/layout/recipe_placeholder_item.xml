@@ -20,7 +20,8 @@
         android:text="@string/repo_name"
         android:textAlignment="viewStart"
         android:textAllCaps="true"
-        android:textColor="#68eded"
+        android:background="@color/placeholder_bg"
+        android:textColor="@color/placeholder_bg"
         android:textSize="20sp"
         android:textStyle="bold"
         app:autoSizeMaxTextSize="19dp"
@@ -42,7 +43,8 @@
         android:paddingRight="5dp"
         android:text="@string/repo_des"
         android:textAlignment="viewStart"
-        android:textColor="#68eded"
+        android:background="@color/placeholder_bg"
+        android:textColor="@color/placeholder_bg"
         android:textSize="18sp"
         app:autoSizeMaxTextSize="18dp"
         app:autoSizeMinTextSize="14dp"
@@ -61,7 +63,8 @@
         android:layout_marginBottom="10dp"
         android:text="@string/repo_owner_name"
         android:textAlignment="textStart"
-        android:textColor="#68eded"
+        android:background="@color/placeholder_bg"
+        android:textColor="@color/placeholder_bg"
         android:textSize="16sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,14 +79,17 @@
         android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/logo" />
+        android:background="@color/placeholder_bg"
+
+
+        />
 
     <ImageView
         android:id="@+id/starImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:contentDescription="starr"
+        android:contentDescription="star"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/repoStartsTextView"
         app:layout_constraintHorizontal_bias="1.0"
@@ -97,7 +103,8 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         android:text="@string/repo_stars"
-        android:textColor="#68eded"
+        android:background="@color/placeholder_bg"
+        android:textColor="@color/placeholder_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
