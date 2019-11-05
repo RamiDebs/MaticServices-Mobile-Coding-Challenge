@@ -11,7 +11,7 @@ import java.util.*
 
 class ReposRepository {
     private val TAG = "ReposRepository"
-    private var repoItems = ArrayList<SingleItem>()
+    private var mRepoItems  = ArrayList<SingleItem>()
     internal val mutableLiveData = MutableLiveData<List<SingleItem>>()
 
     fun getMutableLiveData(page : Int): MutableLiveData<List<SingleItem>> {
@@ -24,8 +24,8 @@ class ReposRepository {
                 Log.d(TAG, "call done. with Response " + response.body())
                 val allServerRepoItems = response.body()
                 if (allServerRepoItems != null) {
-                    repoItems = allServerRepoItems.items as ArrayList<SingleItem>
-                    mutableLiveData.value = repoItems
+                    mRepoItems  = allServerRepoItems.items as ArrayList<SingleItem>
+                    mutableLiveData.value = mRepoItems 
                 }
             }
 
@@ -36,13 +36,13 @@ class ReposRepository {
         return mutableLiveData
     }
 
-    fun getDaysAgo(): String {
+    private fun getDaysAgo(): String {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR, -30)
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         //Github API server only accepts date in this format
-        return "created:>$year-${if (month<=9) "0"+month else month}-${if (day<=9) "0"+day else day}"
+        return "created:>$year-${if (month<=9) "0$month" else month}-${if (day<=9) "0$day" else day}"
     }
 }
