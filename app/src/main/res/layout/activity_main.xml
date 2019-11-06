@@ -62,7 +62,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#DDFFFFFF"
+        android:background="@color/placeholder_bg"
         android:indeterminate="false"
         android:outlineAmbientShadowColor="#FCEEEE"
         android:outlineSpotShadowColor="#FCEEEE"
