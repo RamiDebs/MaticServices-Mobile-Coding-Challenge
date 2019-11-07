@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         mainRView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(1)) {
+                if (!mainRView.canScrollVertically(1)) {
                     progressBar.visibility = View.VISIBLE
                     updateUI(false)
                 }
@@ -50,35 +50,53 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateUI(isFirstInsert: Boolean) {
-        if (CodeUtil.isConnectedToNetwork(this)) {
 
-            if (!isFirstInsert) {
-                mPageNumber++
-            }
-            mMainViewModel!!.allRepos(mPageNumber)
-                .observe(mLifeCycleOwner, Observer { responseItems ->
-                    mRecycleViewAdapter.setItems(
-                        isFirstInsert,
-                        responseItems as ArrayList<SingleItem>
-                    )
-                    if (isFirstInsert) {
-                        //stoping the animation and hiding the layout and let the RView show up with the data
-                        shimmerVewContainer.stopShimmerAnimation()
-                        shimmerVewContainer.visibility = View.GONE
-                        mainRView.visibility = View.VISIBLE
-                        mainRView.animate()
-                        mainRView.animation = null
-                    } else {
-                        progressBar.visibility = View.GONE
-                    }
-                })
-        } else {
+            if (CodeUtil.isConnectedToNetwork(this)) {
+                if (isFirstInsert) {
 
-            FancyToast.makeText(this,"No Internet Connection!",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show()
-            //re-run the function after 10 seconds to check if there is internet connection
-            Handler().postDelayed({
-                updateUI(isFirstInsert)
-            }, 10000)
+                    mMainViewModel!!.allRepos(mPageNumber)
+                        .observe(mLifeCycleOwner, Observer { responseItems ->
+                            mRecycleViewAdapter.setItems(
+                                isFirstInsert,
+                                responseItems as ArrayList<SingleItem>
+                            )
+                            if (isFirstInsert) {
+                                //stoping the animation and hiding the layout and let the RView show up with the data
+                                shimmerVewContainer.stopShimmerAnimation()
+                                shimmerVewContainer.visibility = View.GONE
+                                mainRView.visibility = View.VISIBLE
+                                mainRView.animate()
+                                mainRView.animation = null
+                            }
+                        })
+                } else {
+                    mPageNumber++
+                    progressBar.visibility = View.GONE
+                    mMainViewModel!!.allRepos(mPageNumber)
+                    FancyToast.makeText(
+                        this,
+                        "Data Loaded",
+                        FancyToast.LENGTH_LONG,
+                        FancyToast.SUCCESS,
+                        true
+                    ).show()
+                }
+
+
+            } else {
+
+                FancyToast.makeText(
+                    this,
+                    "No Internet Connection!",
+                    FancyToast.LENGTH_LONG,
+                    FancyToast.ERROR,
+                    true
+                ).show()
+                //re-run the function after 10 seconds to check if there is internet connection
+                Handler().postDelayed({
+                    updateUI(isFirstInsert)
+                }, 10000)
+
         }
     }
 
