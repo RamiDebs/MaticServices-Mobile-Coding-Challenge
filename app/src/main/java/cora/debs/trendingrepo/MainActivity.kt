@@ -15,17 +15,35 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import EasterEgg.ShakeDetector
+import android.hardware.Sensor
+import android.hardware.SensorManager
+import EasterEgg.ShakeDetector.OnShakeListener
+import android.content.Context
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
     private var mMainViewModel: MainViewModel? = null
     private val mRecycleViewAdapter = RepoDataAdapter()
     private var mLifeCycleOwner = this
     private var mPageNumber = 1
+    private var mSensorManager: SensorManager? = null
+    private var mAccelerometer: Sensor? = null
+    private var mShakeDetector: ShakeDetector? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        mAccelerometer = mSensorManager!!
+            .getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        mShakeDetector = ShakeDetector()
+        mShakeDetector!!.setOnShakeListener(object : OnShakeListener {
 
+            override fun onShake(count: Int) {
+            startActivity(Intent(this@MainActivity, EasterEggActivity::class.java))
+            }
+        })
         // using ShimmerFrameLayout by facebook and starting the animation
         shimmerVewContainer.startShimmerAnimation()
 
@@ -37,6 +55,10 @@ class MainActivity : AppCompatActivity() {
         }
         //getting data and updating the user interface
         updateUI(true)
+    }
+
+    override fun onStart() {
+        super.onStart()
         //adding scroll listener to update the list
         mainRView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -48,7 +70,22 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+    
+    public override fun onResume() {
+        super.onResume()
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager?.registerListener(
+            mShakeDetector,
+            mAccelerometer,
+            SensorManager.SENSOR_DELAY_UI
+        )
+    }
 
+    public override fun onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager?.unregisterListener(mShakeDetector)
+        super.onPause()
+    }
     fun updateUI(isFirstInsert: Boolean) {
 
             if (CodeUtil.isConnectedToNetwork(this)) {
